@@ -1,6 +1,7 @@
 package com.mukuru.webApi;
 
 import io.javalin.*;
+import io.javalin.json.JavalinJackson;
 
 public class WebApiServer {
     private final Javalin server;
@@ -9,6 +10,7 @@ public class WebApiServer {
 
         server = Javalin.create(config -> {
             config.http.defaultContentType = "application/json";
+            config.jsonMapper(new JavalinJackson());
         });
 
         server.post("/users", WebApiHandler::registerUser);
