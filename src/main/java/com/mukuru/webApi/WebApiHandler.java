@@ -60,9 +60,31 @@ public class WebApiHandler {
         context.json(loyaltyService.getRewards());
     }
 
+    // Add reward
+    public static void addReward(Context context) {
+        Map<String, Object> body = context.bodyAsClass(Map.class);
+        String name = (String) body.get("name");
+        int cost = (int) body.get("cost");
+        String description = (String) body.get("description");
+        String icon = (String) body.get("icon");
+        int stock = (int) body.get("stock");
 
+        LoyaltyService.addReward(name, cost, description, icon, stock);
+        context.status(201).result("Reward added");
+    }
 
+    // Redeem reward
+    public static void redeemReward(Context context) {
+        Long userId = Long.parseLong(context.pathParam("userId"));
+        Long rewardId = Long.parseLong(context.pathParam("rewardId"));
 
+        try {
+            String result = loyaltyService.redeemReward(userId, rewardId);
+            context.json(Map.of("message", result));
+        } catch (IllegalArgumentException e) {
+            context.status(400).result(e.getMessage());
+        }
+    }
 
 }
 
