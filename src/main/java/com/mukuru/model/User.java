@@ -1,9 +1,5 @@
 package com.mukuru.model;
 
-public class Model {
-}
-package com.mukuru.model;
-
 public class User {
     private Long id;
     private String phone;
