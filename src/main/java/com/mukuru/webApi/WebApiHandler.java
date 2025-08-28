@@ -7,8 +7,7 @@ import com.mukuru.service.LoyaltyService;
 import io.javalin.http.Context;
 
 
-
-
+import java.util.List;
 import java.util.Map;
 
 public class WebApiHandler {
@@ -48,6 +47,21 @@ public class WebApiHandler {
             context.status(404).result(e.getMessage());
         }
     }
+
+    // Get transactions of a user
+    public static void getTransactions(Context context) {
+        Long userId = Long.parseLong(context.pathParam("userId"));
+        List<Transaction> txns = LoyaltyService.getTransactions(userId);
+        context.json(txns);
+    }
+
+    // Get all rewards
+    public static void getRewards(Context context) {
+        context.json(loyaltyService.getRewards());
+    }
+
+
+
 
 
 }
