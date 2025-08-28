@@ -17,6 +17,17 @@ public class Reward {
         this.stock = stock;
     }
 
+    public boolean isAvailable() {
+        return stock > 0;
+    }
+
+    public void redeem() {
+        if (!isAvailable()) {
+            throw new IllegalStateException("Reward is out of stock");
+        }
+        stock--;
+    }
+
     public long getId() { return id; }
     public String getName() { return name; }
     public int getCost() { return cost; }
