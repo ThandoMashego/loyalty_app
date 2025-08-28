@@ -6,7 +6,7 @@ import com.mukuru.model.User;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
+
 
 public interface LoyaltyDAO {
     User getOrCreateUser(String phone, String name) throws SQLException;
@@ -17,10 +17,9 @@ public interface LoyaltyDAO {
     String getTier(long userId) throws SQLException;
     List<Transaction> getTransactions(long userId) throws SQLException;
 
-    List<com.mukuru.database.Reward> listRewards() throws SQLException;
-    String redeem(long userId, long rewardId) throws SQLException; // message: "Unlocked ..."
+    List<Reward> listRewards() throws SQLException;
+    String redeem(long userId, long rewardId) throws SQLException;
 
     static int calculatePoints(double amount){
-        return (int)Math.floor(amount / 100.0);  // 1 per R100
-    }
-}
+        return (int)Math.floor(amount / 100.0);
+}}
