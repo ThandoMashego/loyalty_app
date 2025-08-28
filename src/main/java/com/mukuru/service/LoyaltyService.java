@@ -6,15 +6,15 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class LoyaltyService {
 
-    private final Map<Long, User> users = new HashMap<>();
-    private final Map<Long, Reward> rewards = new HashMap<>();
-    private final Map<Long, List<Transaction>> transactions = new HashMap<>();
+    private static final Map<Long, User> users = new HashMap<>();
+    private static final Map<Long, Reward> rewards = new HashMap<>();
+    private static final Map<Long, List<Transaction>> transactions = new HashMap<>();
 
-    private final AtomicLong userIdSequence = new AtomicLong(1);
+    private static final AtomicLong userIdSequence = new AtomicLong(1);
     private final AtomicLong transactionIdSequence = new AtomicLong(1);
-    private final AtomicLong rewardIdSequence = new AtomicLong(1);
+    private static final AtomicLong rewardIdSequence = new AtomicLong(1);
 
-    public User registerUser(String phone, String name) {
+    public static User registerUser(String phone, String name) {
         for (User existingUser : users.values()) {
             if (existingUser.getPhone().equals(phone)) {
                 return existingUser;
@@ -54,7 +54,7 @@ public class LoyaltyService {
         return transaction;
     }
 
-    public int getPoints(Long userId) {
+    public static int getPoints(Long userId) {
         User user = users.get(userId);
         if (user == null) {
             throw new IllegalArgumentException("User not found");
@@ -62,7 +62,7 @@ public class LoyaltyService {
         return user.getPoints();
     }
 
-    public List<Transaction> getTransactions(Long userId) {
+    public static List<Transaction> getTransactions(Long userId) {
         return transactions.getOrDefault(userId, Collections.emptyList());
     }
 
@@ -70,7 +70,7 @@ public class LoyaltyService {
         return new ArrayList<>(rewards.values());
     }
 
-    public void addReward(String name, int cost, String description, String icon, int stock) {
+    public static void addReward(String name, int cost, String description, String icon, int stock) {
         Reward reward = new Reward(
                 rewardIdSequence.getAndIncrement(),
                 name,
