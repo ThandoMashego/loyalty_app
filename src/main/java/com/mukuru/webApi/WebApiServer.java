@@ -12,9 +12,12 @@ public class WebApiServer {
         });
 
 
-//        server.get("/worlds", RobotWorldApiHandler::getCurrentWorld);
-//        server.get("/worlds/{worldName}", RobotWorldApiHandler::getWorldByName);
-//        server.post("/robot/{name}", RobotWorldApiHandler::getlaunchRobot);
+//        server.post("/customers/{id}", WebApiHandler::registerCustomer);
+//        server.post("/customers/{id}/send", WebApiHandler::sendMoney);
+//        server.get("/customers/{id}/points", WebApiHandler::getPoints);
+//        server.get("/customers/{id}/transactions", WebApiHandler::getTransactions);
+//        server.get("/rewards", WebApiHandler::getRewards);
+//        server.post("/customers/{id}/redeem/{rewardId}", WebApiHandler::redeemReward);
 
     }
 
