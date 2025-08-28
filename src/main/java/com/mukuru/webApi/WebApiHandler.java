@@ -1,9 +1,14 @@
 package com.mukuru.webApi;
 
+import com.mukuru.model.Transaction;
 import com.mukuru.model.User;
 import com.mukuru.service.LoyaltyService;
 
-import javax.naming.Context;
+import io.javalin.http.Context;
+
+
+
+
 import java.util.Map;
 
 public class WebApiHandler {
@@ -18,5 +23,32 @@ public class WebApiHandler {
         User user = LoyaltyService.registerUser(phone, name);
         context.json(user);
     }
+
+    // Send money (creates a transaction and earns points)
+    public static void sendMoney(Context context) {
+        Long userId = Long.parseLong(context.pathParam("userId"));
+        Map<String, Object> body = context.bodyAsClass(Map.class);
+        double amount = Double.parseDouble(body.get("amount").toString());
+
+        try {
+            Transaction transaction = loyaltyService.sendMoney(userId, amount);
+            context.json(transaction);
+        } catch (IllegalArgumentException e) {
+            context.status(404).result(e.getMessage());
+        }
+    }
+
+    // Get user points
+    public static void getPoints(Context context) {
+        Long userId = Long.parseLong(context.pathParam("userId"));
+        try {
+            int points = LoyaltyService.getPoints(userId);
+            context.json(Map.of("userId", userId, "points", points));
+        } catch (IllegalArgumentException e) {
+            context.status(404).result(e.getMessage());
+        }
+    }
+
+
 }
 
