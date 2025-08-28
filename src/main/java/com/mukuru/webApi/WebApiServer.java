@@ -11,14 +11,14 @@ public class WebApiServer {
             config.http.defaultContentType = "application/json";
         });
 
+        server.post("/users", WebApiHandler::registerUser);
+        server.post("/users/{userId}/send", WebApiHandler::sendMoney);
+        server.get("/users/{userId}/points", WebApiHandler::getPoints);
+        server.get("/users/{userId}/transactions", WebApiHandler::getTransactions);
 
-//        server.post("/customers/{id}", WebApiHandler::registerCustomer);
-//        server.post("/customers/{id}/send", WebApiHandler::sendMoney);
-//        server.get("/customers/{id}/points", WebApiHandler::getPoints);
-//        server.get("/customers/{id}/transactions", WebApiHandler::getTransactions);
-//        server.get("/rewards", WebApiHandler::getRewards);
-//        server.post("/customers/{id}/redeem/{rewardId}", WebApiHandler::redeemReward);
-
+        server.get("/rewards", WebApiHandler::getRewards);
+        server.post("/rewards", WebApiHandler::addReward);
+        server.post("/users/{userId}/rewards/{rewardId}/redeem", WebApiHandler::redeemReward);
     }
 
     public void start(int port) {
