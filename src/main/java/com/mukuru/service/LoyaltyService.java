@@ -33,7 +33,7 @@ public class LoyaltyService {
         User user = users.get(userId);
         if (user == null) throw new IllegalArgumentException("User not found");
 
-        int points = (int) Math.floor(amount / 100.0); // 1 point per R100
+        int points = (int) Math.floor(amount / 100.0);
         user.setPoints(user.getPoints() + points);
         updateTier(user);
 
