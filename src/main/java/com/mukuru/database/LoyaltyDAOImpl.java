@@ -15,6 +15,7 @@ public class LoyaltyDAOImpl implements LoyaltyDAO {
     public static final String SEPARATOR = "\t";
     private String dbUrl = null;
 
+
     public static void main( String[] args ) {
         final LoyaltyDAOImpl app = new LoyaltyDAOImpl(args);
     }
@@ -224,7 +225,7 @@ public class LoyaltyDAOImpl implements LoyaltyDAO {
         if (args.length == 2 && args[0].equals("-f")) {
             final File dbFile = new File(args[1]);
             if (dbFile.exists()) {
-                String dbUrl = DISK_DB_URL_PREFIX + args[1];
+                this.dbUrl = DISK_DB_URL_PREFIX + args[1];
             } else {
                 throw new IllegalArgumentException("Database file " + dbFile.getAbsolutePath() + " not found.");
             }
