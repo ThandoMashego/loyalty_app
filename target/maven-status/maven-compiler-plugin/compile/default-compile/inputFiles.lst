@@ -1,0 +1,12 @@
+/Users/nomawonga/Desktop/IdeaProjects/loyalty_app/src/main/java/com/mukuru/client/Client.java
+/Users/nomawonga/Desktop/IdeaProjects/loyalty_app/src/main/java/com/mukuru/database/LoyaltyDAO.java
+/Users/nomawonga/Desktop/IdeaProjects/loyalty_app/src/main/java/com/mukuru/database/LoyaltyDAOImpl.java
+/Users/nomawonga/Desktop/IdeaProjects/loyalty_app/src/main/java/com/mukuru/database/LoyaltyDataBase.java
+/Users/nomawonga/Desktop/IdeaProjects/loyalty_app/src/main/java/com/mukuru/dbTest/DbConnection.java
+/Users/nomawonga/Desktop/IdeaProjects/loyalty_app/src/main/java/com/mukuru/model/Reward.java
+/Users/nomawonga/Desktop/IdeaProjects/loyalty_app/src/main/java/com/mukuru/model/Transaction.java
+/Users/nomawonga/Desktop/IdeaProjects/loyalty_app/src/main/java/com/mukuru/model/User.java
+/Users/nomawonga/Desktop/IdeaProjects/loyalty_app/src/main/java/com/mukuru/server/Server.java
+/Users/nomawonga/Desktop/IdeaProjects/loyalty_app/src/main/java/com/mukuru/service/LoyaltyService.java
+/Users/nomawonga/Desktop/IdeaProjects/loyalty_app/src/main/java/com/mukuru/webApi/WebApiHandler.java
+/Users/nomawonga/Desktop/IdeaProjects/loyalty_app/src/main/java/com/mukuru/webApi/WebApiServer.java
