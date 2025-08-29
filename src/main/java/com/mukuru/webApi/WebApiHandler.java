@@ -1,72 +1,90 @@
 package com.mukuru.webApi;
 
-import com.mukuru.dtos.SendMoneyRequestDto;
-import com.mukuru.dtos.SendMoneyResponseDto;
 import com.mukuru.model.Transaction;
-import io.javalin.http.Context;
-import io.javalin.http.HttpStatus;
-import org.jetbrains.annotations.NotNull;
+import com.mukuru.model.User;
+import com.mukuru.service.LoyaltyService;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
+import io.javalin.http.Context;
+
+
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class WebApiHandler {
-    public static void registerCustomer(@NotNull Context context) {
-        String id = context.pathParam("id");
-        context.json("Registering customer with ID: " + id);
+    private static final LoyaltyService loyaltyService = new LoyaltyService();
 
-        context.status(201);
+    //Register a customer or user:
+    public static void registerUser(Context context){
+        Map<String, String> body = context.bodyAsClass(Map.class);
+        String phone = body.get("phone");
+        String name = body.getOrDefault("name", "Customer");
+
+        User user = LoyaltyService.registerUser(phone, name);
+        context.json(user);
     }
 
-    public static void sendMoney(@NotNull Context context) {
-        final String pathId = context.pathParam("id");
+    // Send money (creates a transaction and earns points)
+    public static void sendMoney(Context context) {
+        Long userId = Long.parseLong(context.pathParam("userId"));
+        Map<String, Object> body = context.bodyAsClass(Map.class);
+        double amount = Double.parseDouble(body.get("amount").toString());
 
-        // Parse & validate body
-        SendMoneyRequestDto req = context.bodyValidator(SendMoneyRequestDto.class)
-                .check(r -> r.amount != null, "amount is required")
-                .check(r -> r.amount != null && r.amount.compareTo(BigDecimal.ZERO) > 0, "amount must be > 0")
-                .check(r -> r.recipient != null && !r.recipient.isBlank(), "recipient is required")
-                .get();
-
-        // Compute points server-side to avoid client tampering
-        int earnedPoints = req.amount
-                .divide(new BigDecimal("100"), 0, RoundingMode.DOWN)
-                .intValue();
-
-        // Pick date: use supplied or default to today
-        String isoDate = (req.date != null && !req.date.isBlank())
-                ? req.date
-                : LocalDate.now().toString();
-
-        // TODO: Business rules (examples)
-        // - Check sender balance / daily limit / KYC status
-        // - Validate recipient existence, same/different customer, etc.
-        // - Perform ledger entries (debit/credit) if you keep balances
-
-        // Create transaction
-        Transaction tx = new Transaction();
-        tx.setId(ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE));
-        tx.setAmount(req.amount.doubleValue());
-        tx.setPoints(earnedPoints);
-        // tx.date = isoDate;
-        // tx.recipient = req.recipient;
-        // tx.country = (req.country == null || req.country.isBlank()) ? "South Africa" : req.country;
-
-        // Persist transaction to database
-
-        // Build response
-        SendMoneyResponseDto resp = new SendMoneyResponseDto();
-        resp.success = true;
-        resp.message = "Money sent successfully";
-        resp.transaction = tx;
-        resp.pointsEarned = earnedPoints;
-        resp.pointsBalance = 0;
-
-        context.status(HttpStatus.CREATED).json(resp);
+        try {
+            Transaction transaction = loyaltyService.sendMoney(userId, amount);
+            context.json(transaction);
+        } catch (IllegalArgumentException e) {
+            context.status(404).result(e.getMessage());
+        }
     }
+
+    // Get user points
+    public static void getPoints(Context context) {
+        Long userId = Long.parseLong(context.pathParam("userId"));
+        try {
+            int points = LoyaltyService.getPoints(userId);
+            context.json(Map.of("userId", userId, "points", points));
+        } catch (IllegalArgumentException e) {
+            context.status(404).result(e.getMessage());
+        }
+    }
+
+    // Get transactions of a user
+    public static void getTransactions(Context context) {
+        Long userId = Long.parseLong(context.pathParam("userId"));
+        List<Transaction> txns = LoyaltyService.getTransactions(userId);
+        context.json(txns);
+    }
+
+    // Get all rewards
+    public static void getRewards(Context context) {
+        context.json(loyaltyService.getRewards());
+    }
+
+    // Add reward
+    public static void addReward(Context context) {
+        Map<String, Object> body = context.bodyAsClass(Map.class);
+        String name = (String) body.get("name");
+        int cost = (int) body.get("cost");
+        String description = (String) body.get("description");
+        String icon = (String) body.get("icon");
+        int stock = (int) body.get("stock");
+
+        LoyaltyService.addReward(name, cost, description, icon, stock);
+        context.status(201).result("Reward added");
+    }
+
+    // Redeem reward
+    public static void redeemReward(Context context) {
+        Long userId = Long.parseLong(context.pathParam("userId"));
+        Long rewardId = Long.parseLong(context.pathParam("rewardId"));
+
+        try {
+            String result = loyaltyService.redeemReward(userId, rewardId);
+            context.json(Map.of("message", result));
+        } catch (IllegalArgumentException e) {
+            context.status(400).result(e.getMessage());
+        }
+    }
+
 }
 

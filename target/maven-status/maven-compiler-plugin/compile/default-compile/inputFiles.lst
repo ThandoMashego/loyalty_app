@@ -1,0 +1,12 @@
+/home/wtc/IdeaProjects/loyalty_app/src/main/java/com/mukuru/client/Client.java
+/home/wtc/IdeaProjects/loyalty_app/src/main/java/com/mukuru/database/LoyaltyDAO.java
+/home/wtc/IdeaProjects/loyalty_app/src/main/java/com/mukuru/database/LoyaltyDAOImpl.java
+/home/wtc/IdeaProjects/loyalty_app/src/main/java/com/mukuru/database/LoyaltyDataBase.java
+/home/wtc/IdeaProjects/loyalty_app/src/main/java/com/mukuru/dbTest/DbConnection.java
+/home/wtc/IdeaProjects/loyalty_app/src/main/java/com/mukuru/model/Reward.java
+/home/wtc/IdeaProjects/loyalty_app/src/main/java/com/mukuru/model/Transaction.java
+/home/wtc/IdeaProjects/loyalty_app/src/main/java/com/mukuru/model/User.java
+/home/wtc/IdeaProjects/loyalty_app/src/main/java/com/mukuru/server/Server.java
+/home/wtc/IdeaProjects/loyalty_app/src/main/java/com/mukuru/service/LoyaltyService.java
+/home/wtc/IdeaProjects/loyalty_app/src/main/java/com/mukuru/webApi/WebApiHandler.java
+/home/wtc/IdeaProjects/loyalty_app/src/main/java/com/mukuru/webApi/WebApiServer.java

@@ -1,32 +1,26 @@
 package com.mukuru.webApi;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.*;
+import io.javalin.json.JavalinJackson;
 
 public class WebApiServer {
     private final Javalin server;
 
     public WebApiServer(){
-        ObjectMapper om = new ObjectMapper(); // if you use java.time types
 
         server = Javalin.create(config -> {
             config.http.defaultContentType = "application/json";
-
-            config.bundledPlugins.enableCors(cors -> {
-                cors.addRule(rule -> {
-                    rule.anyHost(); // equivalent to Access-Control-Allow-Origin: *
-                });
-            });
+            config.jsonMapper(new JavalinJackson());
         });
 
+        server.post("/users", WebApiHandler::registerUser);
+        server.post("/users/{userId}/send", WebApiHandler::sendMoney);
+        server.get("/users/{userId}/points", WebApiHandler::getPoints);
+        server.get("/users/{userId}/transactions", WebApiHandler::getTransactions);
 
-            server.get("/customers/{id}", WebApiHandler::registerCustomer);
-            server.post("/customers/{id}/send", WebApiHandler::sendMoney);
-//        server.get("/customers/{id}/points", WebApiHandler::getPoints);
-//        server.get("/customers/{id}/transactions", WebApiHandler::getTransactions);
-//        server.get("/rewards", WebApiHandler::getRewards);
-//        server.post("/customers/{id}/redeem/{rewardId}", WebApiHandler::redeemReward);
-
+        server.get("/rewards", WebApiHandler::getRewards);
+        server.post("/rewards", WebApiHandler::addReward);
+        server.post("/users/{userId}/rewards/{rewardId}/redeem", WebApiHandler::redeemReward);
     }
 
     public void start(int port) {

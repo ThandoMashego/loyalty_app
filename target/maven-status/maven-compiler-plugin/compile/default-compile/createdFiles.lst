@@ -1,0 +1,12 @@
+com/mukuru/model/Reward.class
+com/mukuru/database/LoyaltyDAOImpl.class
+com/mukuru/model/User.class
+com/mukuru/database/LoyaltyDAO.class
+com/mukuru/model/Transaction.class
+com/mukuru/webApi/WebApiHandler.class
+com/mukuru/dbTest/DbConnection.class
+com/mukuru/service/LoyaltyService.class
+com/mukuru/client/Client.class
+com/mukuru/database/LoyaltyDataBase.class
+com/mukuru/server/Server.class
+com/mukuru/webApi/WebApiServer.class
