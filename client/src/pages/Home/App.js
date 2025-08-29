@@ -13,6 +13,7 @@ import {
   Check,
   Coins
 } from 'lucide-react';
+import customerService from "../../services/customer.service";
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('send');
@@ -34,12 +35,13 @@ const App = () => {
     { id: 1, name: 'Airtime R50', cost: 500, category: 'Mobile', icon: '📱', description: 'Mobile airtime voucher' },
     { id: 2, name: 'Data Bundle 5GB', cost: 800, category: 'Mobile', icon: '📶', description: '5GB data bundle' },
     { id: 3, name: 'Grocery Voucher R100', cost: 1000, category: 'Shopping', icon: '🛒', description: 'Grocery store voucher' },
-    { id: 4, name: 'Coffee Shop Voucher', cost: 300, category: 'Food', icon: '☕', description: 'Coffee shop voucher' },
-    { id: 5, name: 'Movie Ticket', cost: 600, category: 'Entertainment', icon: '🎬', description: 'Cinema movie ticket' },
+    { id: 4, name: 'Travel Voucher', cost: 300, category: 'Food', icon: '🚎', description: 'Travel voucher' },
+    { id: 5, name: 'Medication Voucher', cost: 600, category: 'Medics', icon: '💊', description: 'Clicks medication voucher' },
     { id: 6, name: 'Digital Badge: Explorer', cost: 100, category: 'Digital', icon: '🏆', description: 'Special achievement badge' }
   ];
 
   const handleSendMoney = () => {
+    debugger;
     if (!sendAmount || !recipient) return;
 
     setIsAnimating(true);
@@ -55,6 +57,10 @@ const App = () => {
         recipient: recipient,
         country: 'South Africa'
       };
+
+      customerService.sendMoney(1, newTransaction, null).then((data) => {
+        console.log(data);
+      });
 
       setTransactions([newTransaction, ...transactions]);
       setPoints(points + earnedPoints);
